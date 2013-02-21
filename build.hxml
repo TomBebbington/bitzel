@@ -1,0 +1,5 @@
+-swf pieland.swf
+-swf-header 640:480:30:FFFFFF
+-cp src
+-main Main
+-lib awe
