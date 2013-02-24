@@ -7,13 +7,17 @@ class LevelManager extends Manager {
 	public var platforms(default, null):Array<Entity>;
 	public var coins(default, null):Array<Entity>;
 	public var score(default, null):Entity;
+	public var sun(default, null):Entity;
 	public function new() {
 		super();
 		player = null;
 		platforms = [];
 		coins = [];
+		sun = null;
 	}
+
 	public override function added() {
+		System.root.addChild(sun = createSun());
 		System.root.addChild(player = createPlayer(50));
 		for(i in 0...20)
 			addPlatform(createPlatform(i*200, Math.random()*player.get(Geometry).height*player.get(Gravity).jumpStrength, 100+Math.random()*75));
@@ -38,6 +42,7 @@ class LevelManager extends Manager {
 		var btm:Float = platforms[0].get(Geometry).bottom;
 		for(p in platforms)
 			btm = Math.max(btm, p.get(Geometry).bottom);
+		sun.get(Geometry).centerY = 75 - player.get(Geometry).bottom / btm;
 		if(player.get(Geometry).top - System.get(DisplayManager).height*0.5 > btm)
 			player.get(Respawn).respawn();
 		var s = player.get(Collect).count;
@@ -47,6 +52,15 @@ class LevelManager extends Manager {
 		var p = new Entity();
 		p.add(new TextSprite("Score: 0", new TextFormat("sans")));
 		p.get(Sprite).sticky = true;
+		return p;
+	}
+	function createSun() {
+		var p =new Entity();
+		var s:FillSprite = new FillSprite(0xFFFF00, 100, 100);
+		s.sticky = true;
+		s.collidable = false;
+		s.moveTo(400, 25);
+		p.add(s);
 		return p;
 	}
 	function createPlayer(x:Float=0, y:Float=0) {
@@ -64,9 +78,9 @@ class LevelManager extends Manager {
 	function createPlatform(x:Float=0, y:Float=0, w:Float=16, h:Float=16) {
 		var p = new Entity();
 		p.add(new Platform(x, y, w, h));
-		var off = w % 20;
+		var off = 8 + (w % 20);
 		for(i in 0...Std.int(w/20)) {
-			var c = createCoin(x+i*20 - w*0.5, y - 10);
+			var c = createCoin(off + x+i*20 - w*0.5, y - 10);
 			coins.push(c);
 			awe.System.root.addChild(c);
 		}

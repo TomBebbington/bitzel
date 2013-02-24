@@ -47,7 +47,7 @@ class Gravity extends Component {
 	public function jump():Void {
 		if(platform == null)
 			return;
-		sprite.bottom = platform.top;
+		sprite.bottom = platform.top-1;
 		this.velocity = -jumpStrength * sprite.height * 0.2;
 		platform = null;
 	}
