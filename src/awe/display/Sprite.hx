@@ -1,23 +1,19 @@
 package awe.display;
 import awe.*;
-class Sprite extends Component implements Renderable {
-	public var x:Float;
-	public var y:Float;
-	public var width:Float;
-	public var height:Float;
-	public function new() {
-		super();
-		x = y = width = height = 0;
+import flash.display.BitmapData;
+class Sprite extends awe.geom.Geometry {
+	public var layer:Float;
+	public var sticky:Bool;
+	public function new(x:Float=0, y:Float=0) {
+		super(x, y);
+		width = height = 0;
+		layer = 0;
+		sticky = false;
 	}
-	public function render(bd) {
-
+	public function render():BitmapData {
+		return null;
 	}
-	public inline function moveTo(x:Float, y:Float) {
-		this.x = x;
-		this.y = y;
-	}
-	public inline function moveBy(x:Float, y:Float) {
-		this.x += x;
-		this.y += y;
+	public override function toString():String {
+		return 'Sprite at $x, $y';
 	}
 }

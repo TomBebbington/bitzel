@@ -1,6 +1,7 @@
 package awe.display;
 import awe.*;
 import flash.geom.Rectangle;
+import flash.display.BitmapData;
 class FillSprite extends Sprite {
 	public var color:Int;
 	public function new(color:Int, width:Float, height:Float) {
@@ -11,7 +12,7 @@ class FillSprite extends Sprite {
 	}
 	public override function update(d) {
 	}
-	public override function render(b) {
-		b.fillRect(new Rectangle(x, y, width, height), color | 0xFF000000);
+	public override function render() {
+		return new BitmapData(Std.int(width), Std.int(height), false, color);
 	}
 }
